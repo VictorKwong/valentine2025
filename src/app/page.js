@@ -153,8 +153,8 @@ export default function Home() {
     <div className="container" style={{ textAlign: "center", padding: "50px", fontFamily: "'Poppins', sans-serif" }}>
       <FloatingHearts />
       <MouseHearts />
-      <h1 style={{ fontSize: "2.8rem", color: "#F56C99", marginBottom: "20px" }}>Happy Valentine's Day, My Love!</h1>
-      <p style={{ fontSize: "1.3rem", color: "#F56C99", marginBottom: "30px", fontWeight: "bold"}}>每一次打開都能感受到溫暖，讓我們一起創造更多回憶，攜手走過每一個明天🌹✨</p>
+      <h1 style={{ fontSize: "2.8rem", color: "#F56C99", marginBottom: "20px" }}>Victor🤖: Happy Valentine's Day, Claire!</h1>
+      <p style={{ fontSize: "1.3rem", color: "#F56C99", marginBottom: "30px", fontWeight: "bold"}}>每一次打開都能感受到溫暖，願我們在耶穌🙏的帶領下，一起創造更多美好的回憶，勇敢迎接每一個明天。🌹✨</p>
 
       {questionIndex < questions.length && !showCelebration && (
         <div style={{ marginTop: "30px" }}>
