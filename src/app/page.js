@@ -91,24 +91,6 @@ export default function Home() {
     });
   };
 
-  const handleNoButtonClick = (event) => {
-    event.preventDefault(); // Prevent default to avoid weird tap behavior on mobile
-    teleportNoButton();
-  };
-
-    // Attach event listeners
-    useEffect(() => {
-      const button = noButtonRef.current;
-      if (button) {
-        button.addEventListener("click", handleNoButtonClick);
-      }
-      return () => {
-        if (button) {
-          button.removeEventListener("click", handleNoButtonClick);
-        }
-      };
-    }, [teleportEnabled, questionIndex]);
-
   const fakeNoText = [3].includes(questionIndex) ? "Maybe" : "No";
 
   useEffect(() => {
