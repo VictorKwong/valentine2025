@@ -16,6 +16,7 @@ export default function Home() {
   const [isNoButtonHidden, setIsNoButtonHidden] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [specialMessage, setSpecialMessage] = useState("");
+  const [isMobile, setIsMobile] = useState(false); 
 
   const noButtonRef = useRef(null);
 
@@ -31,6 +32,18 @@ export default function Home() {
 
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  // Detect whether the device is mobile on mount or when the window resizes
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust breakpoint as needed
+    };
+    checkIfMobile(); // Initial check
+    window.addEventListener("resize", checkIfMobile); // Add resize listener
+    return () => {
+      window.removeEventListener("resize", checkIfMobile); // Cleanup
+    };
   }, []);
 
   const handleAnswer = (answer) => {
@@ -63,35 +76,60 @@ export default function Home() {
   };
 
   const teleportNoButton = () => {
+    // Check if teleportation is enabled and we are on the last question
     if (!teleportEnabled || questionIndex !== questions.length - 1) return;
   
-    if (noButtonRef.current) {
-      const isMobile = window.innerWidth <= 768; // Adjust breakpoint for mobile view
+    // Detect if the device is mobile
+    const isMobile = window.innerWidth <= 768; // Adjust this based on your mobile breakpoint
   
-      let randomX = Math.random() * (window.innerWidth - 150);
-      let randomY = Math.random() * (window.innerHeight - 50);
+    // If it's mobile, teleport the "No" button on click, not hover
+    if (isMobile) {
+      if (noButtonRef.current) {
+        const randomX = Math.random() * (window.innerWidth - 150);
+        const randomY = Math.random() * (window.innerHeight - 50);
   
-      // If mobile, adjust the random position to avoid edges
-      if (isMobile) {
-        randomX = Math.min(randomX, window.innerWidth - 200);  // Ensure no button goes off-screen
-        randomY = Math.min(randomY, window.innerHeight - 80);
+        noButtonRef.current.style.position = "absolute";
+        noButtonRef.current.style.left = `${randomX}px`;
+        noButtonRef.current.style.top = `${randomY}px`;
       }
   
-      noButtonRef.current.style.position = "absolute";
-      noButtonRef.current.style.left = `${randomX}px`;
-      noButtonRef.current.style.top = `${randomY}px`;
+      // Disable teleporting after it happens
+      setIsNoButtonDisabled(true);
+      setHoverCount((prev) => {
+        const newCount = prev + 1;
+        if (newCount >= 5) setTeleportEnabled(false); // Disable teleport after a few clicks
+        return newCount;
+      });
+      setTimeout(() => {
+        setIsNoButtonDisabled(false);
+      }, 300);
     }
-  
-    setIsNoButtonDisabled(true);
-    setHoverCount((prev) => {
-      const newCount = prev + 1;
-      if (newCount >= 5) setTeleportEnabled(false);
-      return newCount;
-    });
-    setTimeout(() => {
-      setIsNoButtonDisabled(false);
-    }, 300);
   };
+  
+  useEffect(() => {
+    // Make sure teleportation only happens on hover for desktop
+    if (!isMobile) {
+      // Attach hover effect only for non-mobile (desktop) devices
+      const noButtonElement = noButtonRef.current;
+      if (noButtonElement) {
+        noButtonElement.addEventListener('mouseenter', teleportNoButton);
+  
+        // Clean up listener on unmount
+        return () => {
+          noButtonElement.removeEventListener('mouseenter', teleportNoButton);
+        };
+      }
+    }
+  }, [isMobile]);
+  
+  // Make sure teleportation on hover or click is only triggered when appropriate
+  useEffect(() => {
+    if (questionIndex === questions.length - 1) {
+      if (!isMobile) {
+        teleportNoButton();  // Trigger teleportation on hover if desktop
+      }
+    }
+  }, [questionIndex, isMobile]);
 
   const fakeNoText = [3, 10].includes(questionIndex) ? "Maybe" : "No";
 
@@ -137,7 +175,7 @@ export default function Home() {
     <div className="container" style={{ textAlign: "center", padding: "50px", fontFamily: "'Poppins', sans-serif" }}>
       <FloatingHearts />
       <MouseHearts />
-      <h1 style={{ fontSize: "2.8rem", color: "#F56C99", marginBottom: "20px" }}>💖 Happy Valentine's Day, My Love! 💖</h1>
+      <h1 style={{ fontSize: "2.8rem", color: "#F56C99", marginBottom: "20px" }}>Happy Valentine's Day, My Love!</h1>
       <p style={{ fontSize: "1.3rem", color: "#F56C99", marginBottom: "30px", fontWeight: "bold"}}>每一次打開都能感受到溫暖，讓我們一起創造更多回憶，攜手走過每一個明天🌹✨</p>
 
       {questionIndex < questions.length && !showCelebration && (
