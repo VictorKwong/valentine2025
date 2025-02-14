@@ -63,28 +63,26 @@ export default function Home() {
   };
 
   const teleportNoButton = () => {
-    const isMobile = window.innerWidth <= 768;  // Consider devices with width <= 768px as mobile
+    const isMobile = window.innerWidth <= 768;  // Consider width <= 768px as mobile
     if (!teleportEnabled || questionIndex !== questions.length - 1) return;
-
-    if (!isMobile) {
-      // For desktop: teleport the button randomly
-      if (noButtonRef.current) {
-        const randomX = Math.random() * (window.innerWidth - 150);
-        const randomY = Math.random() * (window.innerHeight - 50);
-        noButtonRef.current.style.position = "absolute";
-        noButtonRef.current.style.left = `${randomX}px`;
-        noButtonRef.current.style.top = `${randomY}px`;
-      }
-    } else {
-      // For mobile: avoid teleportation or provide a simpler behavior
-      noButtonRef.current.blur();
+  
+    if (noButtonRef.current) {
+      const randomX = Math.random() * (window.innerWidth - 150);
+      const randomY = Math.random() * (window.innerHeight - 50);
+      noButtonRef.current.style.position = "absolute";
+      noButtonRef.current.style.left = `${randomX}px`;
+      noButtonRef.current.style.top = `${randomY}px`;
     }
-
+  
+    // Ensure the button is not stuck in a disabled state
     setIsNoButtonDisabled(true);
     setTimeout(() => {
-      setIsNoButtonDisabled(false);  // Allow button click after a short delay
+      setIsNoButtonDisabled(false);
+      if (noButtonRef.current) {
+        noButtonRef.current.focus(); // Ensure focus is removed on mobile
+      }
     }, 300);
-
+  
     setHoverCount((prev) => {
       const newCount = prev + 1;
       if (newCount >= 5) setTeleportEnabled(false);
@@ -98,19 +96,19 @@ export default function Home() {
   };
 
     // Attach event listeners
-  useEffect(() => {
-    const button = noButtonRef.current;
-    if (button) {
-      button.addEventListener("click", handleNoButtonClick);
-      button.addEventListener("touchstart", handleNoButtonClick); // Handle touch on mobile
-    }
-    return () => {
+    useEffect(() => {
+      const button = noButtonRef.current;
       if (button) {
-        button.removeEventListener("click", handleNoButtonClick);
-        button.removeEventListener("touchstart", handleNoButtonClick);
+        button.addEventListener("click", handleNoButtonClick);
+        button.addEventListener("touchend", handleNoButtonClick); // Use `touchend` instead of `touchstart`
       }
-    };
-  }, [teleportEnabled, questionIndex]);
+      return () => {
+        if (button) {
+          button.removeEventListener("click", handleNoButtonClick);
+          button.removeEventListener("touchend", handleNoButtonClick);
+        }
+      };
+    }, [teleportEnabled, questionIndex]);
 
   const fakeNoText = [3].includes(questionIndex) ? "Maybe" : "No";
 
