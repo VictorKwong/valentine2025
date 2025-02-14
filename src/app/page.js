@@ -64,13 +64,24 @@ export default function Home() {
 
   const teleportNoButton = () => {
     if (!teleportEnabled || questionIndex !== questions.length - 1) return;
+  
     if (noButtonRef.current) {
-      const randomX = Math.random() * (window.innerWidth - 150);
-      const randomY = Math.random() * (window.innerHeight - 50);
+      const isMobile = window.innerWidth <= 768; // Adjust breakpoint for mobile view
+  
+      let randomX = Math.random() * (window.innerWidth - 150);
+      let randomY = Math.random() * (window.innerHeight - 50);
+  
+      // If mobile, adjust the random position to avoid edges
+      if (isMobile) {
+        randomX = Math.min(randomX, window.innerWidth - 200);  // Ensure no button goes off-screen
+        randomY = Math.min(randomY, window.innerHeight - 80);
+      }
+  
       noButtonRef.current.style.position = "absolute";
       noButtonRef.current.style.left = `${randomX}px`;
       noButtonRef.current.style.top = `${randomY}px`;
     }
+  
     setIsNoButtonDisabled(true);
     setHoverCount((prev) => {
       const newCount = prev + 1;

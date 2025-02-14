@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const MouseHearts = () => {
   useEffect(() => {
     const hearts = [];
-    const NUM_HEARTS = 30; // Total number of hearts in the background
+    const NUM_HEARTS = window.innerWidth < 600 ? 15 : 30; // Reduce number of hearts on mobile
     let lastMouseX = 0;
     let lastMouseY = 0;
     let mouseSpeed = 0;
@@ -17,7 +17,7 @@ const MouseHearts = () => {
       heart.style.position = "absolute";
       heart.style.left = `${x}px`;
       heart.style.top = `${y}px`;
-      heart.style.fontSize = "18px";
+      heart.style.fontSize = window.innerWidth < 600 ? "12px" : "18px"; // Adjust font size for mobile
       heart.style.pointerEvents = "none"; // Prevents interference with clicks
       heart.style.opacity = "0.8"; // Slightly transparent
       heart.style.zIndex = "-1";
@@ -133,11 +133,15 @@ const MouseHearts = () => {
     window.addEventListener("mousemove", handleMouseMove);
 
     // Continuously update the hearts' movement even when the mouse isn't moving
-    const interval = setInterval(updateHeartsWithoutMouse, 16); // 60 FPS
+    const animateHearts = () => {
+      updateHeartsWithoutMouse();
+      requestAnimationFrame(animateHearts); // Using requestAnimationFrame for smooth animation
+    };
+
+    animateHearts();
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      clearInterval(interval);
     };
   }, []);
 
