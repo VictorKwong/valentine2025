@@ -66,22 +66,25 @@ export default function Home() {
     const isMobile = window.innerWidth <= 768;  // Consider width <= 768px as mobile
     if (!teleportEnabled || questionIndex !== questions.length - 1) return;
   
-    if (noButtonRef.current) {
-      const randomX = Math.random() * (window.innerWidth - 150);
-      const randomY = Math.random() * (window.innerHeight - 50);
-      noButtonRef.current.style.position = "absolute";
-      noButtonRef.current.style.left = `${randomX}px`;
-      noButtonRef.current.style.top = `${randomY}px`;
+    if (!isMobile) {
+      // For desktop: teleport the button randomly
+      if (noButtonRef.current) {
+        const randomX = Math.random() * (window.innerWidth - 150);
+        const randomY = Math.random() * (window.innerHeight - 50);
+        noButtonRef.current.style.position = "absolute";
+        noButtonRef.current.style.left = `${randomX}px`;
+        noButtonRef.current.style.top = `${randomY}px`;
+      }
+    } else {
+      // For mobile: avoid teleportation or provide a simpler behavior
+      noButtonRef.current.blur();
+      setIsNoButtonDisabled(true);
+      setTimeout(() => {
+        setIsNoButtonDisabled(false);  // Allow button click after a short delay
+      }, 200);
     }
   
-    // Ensure the button is not stuck in a disabled state
-    // setIsNoButtonDisabled(true);
-    setTimeout(() => {
-      // setIsNoButtonDisabled(false);
-      if (noButtonRef.current) {
-        noButtonRef.current.focus(); // Ensure focus is removed on mobile
-      }
-    }, 300);
+
   
     setHoverCount((prev) => {
       const newCount = prev + 1;
