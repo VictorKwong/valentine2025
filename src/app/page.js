@@ -75,9 +75,9 @@ export default function Home() {
     }
   
     // Ensure the button is not stuck in a disabled state
-    setIsNoButtonDisabled(true);
+    // setIsNoButtonDisabled(true);
     setTimeout(() => {
-      setIsNoButtonDisabled(false);
+      // setIsNoButtonDisabled(false);
       if (noButtonRef.current) {
         noButtonRef.current.focus(); // Ensure focus is removed on mobile
       }
