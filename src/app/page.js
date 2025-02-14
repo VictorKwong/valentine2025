@@ -42,7 +42,7 @@ export default function Home() {
         setNoClickCount(noClickCount + 1);
         setCountdown(null); // Reset countdown
       } else {
-        setSpecialMessage("I coded this to make a special Valentine's Day for you! 💖🎉");
+        setSpecialMessage("I coded this to make a special Valentine's Day for you, Claire! 約翰一書4章19節 - 我們愛， 因為神先愛我們。🦊");
         setShowCelebration(false);
         setNoClickCount(0);
       }
@@ -205,8 +205,9 @@ export default function Home() {
 
       {showCelebration && (
         <div className="celebration" style={{ marginTop: "30px", padding: "30px", backgroundColor: "#FFEBEB", borderRadius: "10px", color: "#333", boxShadow: "0px 10px 15px rgba(0, 0, 0, 0.1)" }}>
-          <h2 style={{ fontSize: "2rem", color: "#F56C99" }}>🎉 Yay, we’re celebrating! 🎉</h2>
-          <p style={{ fontSize: "1.2rem", color: "#F56C99" }}>I’m so happy :) to celebrate with you Claire! 💕🐝🦊</p>
+          <h2 style={{ fontSize: "2rem", color: "#F56C99" }}>🎉 Celebrate with you Claire! 💕🐝🦊 🎉</h2>
+          <p style={{ fontSize: "1.2rem", color: "#F56C99" }}>哥林多前書 - 13章4節📖</p>
+          <p style={{ fontSize: "1.2rem", color: "#F56C99" }}>愛 是 恆 久 忍 耐 ， 又 有 恩 慈 ； 愛 是 不 嫉 妒 ； 愛 是 不 自 誇 ， 不 張 狂 ，</p>
         </div>
       )}
     </div>
