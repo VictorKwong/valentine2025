@@ -77,11 +77,13 @@ export default function Home() {
       }
     } else {
       // For mobile: avoid teleportation or provide a simpler behavior
-      setIsNoButtonDisabled(true);
-      setTimeout(() => {
-        setIsNoButtonDisabled(false);  // Allow button click after a short delay
-      }, 300);
+      noButtonRef.current.blur();
     }
+
+    setIsNoButtonDisabled(true);
+    setTimeout(() => {
+      setIsNoButtonDisabled(false);  // Allow button click after a short delay
+    }, 300);
 
     setHoverCount((prev) => {
       const newCount = prev + 1;
@@ -90,7 +92,27 @@ export default function Home() {
     });
   };
 
-  const fakeNoText = [3, 10].includes(questionIndex) ? "Maybe" : "No";
+  const handleNoButtonClick = (event) => {
+    event.preventDefault(); // Prevent default to avoid weird tap behavior on mobile
+    teleportNoButton();
+  };
+
+    // Attach event listeners
+  useEffect(() => {
+    const button = noButtonRef.current;
+    if (button) {
+      button.addEventListener("click", handleNoButtonClick);
+      button.addEventListener("touchstart", handleNoButtonClick); // Handle touch on mobile
+    }
+    return () => {
+      if (button) {
+        button.removeEventListener("click", handleNoButtonClick);
+        button.removeEventListener("touchstart", handleNoButtonClick);
+      }
+    };
+  }, [teleportEnabled, questionIndex]);
+
+  const fakeNoText = [3].includes(questionIndex) ? "Maybe" : "No";
 
   useEffect(() => {
     if ([4].includes(questionIndex)) {
@@ -134,7 +156,7 @@ export default function Home() {
     <div className="container" style={{ textAlign: "center", padding: "50px", fontFamily: "'Poppins', sans-serif" }}>
       <FloatingHearts />
       <MouseHearts />
-      <h1 style={{ fontSize: "2.8rem", color: "#F56C99", marginBottom: "20px" }}>💖 Happy Valentine's Day, My Love! 💖</h1>
+      <h1 style={{ fontSize: "2.8rem", color: "#F56C99", marginBottom: "20px" }}>Happy Valentine's Day, My Love!</h1>
       <p style={{ fontSize: "1.3rem", color: "#F56C99", marginBottom: "30px", fontWeight: "bold"}}>每一次打開都能感受到溫暖，讓我們一起創造更多回憶，攜手走過每一個明天🌹✨</p>
 
       {questionIndex < questions.length && !showCelebration && (
