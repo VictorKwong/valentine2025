@@ -83,9 +83,7 @@ export default function Home() {
         setIsNoButtonDisabled(false);  // Allow button click after a short delay
       }, 200);
     }
-  
 
-  
     setHoverCount((prev) => {
       const newCount = prev + 1;
       if (newCount >= 5) setTeleportEnabled(false);
@@ -103,12 +101,10 @@ export default function Home() {
       const button = noButtonRef.current;
       if (button) {
         button.addEventListener("click", handleNoButtonClick);
-        button.addEventListener("touchend", handleNoButtonClick); // Use `touchend` instead of `touchstart`
       }
       return () => {
         if (button) {
           button.removeEventListener("click", handleNoButtonClick);
-          button.removeEventListener("touchend", handleNoButtonClick);
         }
       };
     }, [teleportEnabled, questionIndex]);
@@ -192,6 +188,7 @@ export default function Home() {
                 boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
               }}
               onMouseEnter={teleportNoButton}
+              onTouchStart={teleportNoButton}
               disabled={isNoButtonDisabled}
             >
               {fakeNoText}
