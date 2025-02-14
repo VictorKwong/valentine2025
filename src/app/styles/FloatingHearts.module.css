@@ -1,0 +1,62 @@
+.heart {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  animation: floatUp 3s linear forwards, fadeInOut 3s ease-in-out forwards;
+}
+
+/* Top Circles */
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -12.5px; /* Adjusted to center the top circle */
+  left: 0px;
+}
+
+.heart::after {
+  top: 0px;
+  left: -12.5px; /* Adjusted to center the left circle */
+}
+
+/* Floating Up Animation */
+@keyframes floatUp {
+  0% {
+    transform: translate(0, 0) rotate(45deg);
+  }
+  100% {
+    transform: translate(calc(-25px + 50px * var(--direction)), -100px) rotate(45deg);
+  }
+}
+
+/* Smooth Fade In & Out */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(45deg);
+  }
+  20% {
+    opacity: 0.5;
+    transform: scale(1) rotate(45deg);
+  }
+  80% {
+    opacity: 0.5;
+    transform: scale(1) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(45deg);
+  }
+}

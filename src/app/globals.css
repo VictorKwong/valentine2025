@@ -13,15 +13,19 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  height: 100vh; /* Ensure full viewport height */
+  overflow: hidden; /* Prevent scrolling */
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: pink;
+  color: #333; 
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  overflow: hidden; /* Prevents scrolling */
+  position: relative; /* Ensures absolute elements stay inside */
+  margin: 0;
+  padding: 0;
 }
 
 * {
@@ -30,10 +34,102 @@ body {
   margin: 0;
 }
 
+h1 {
+  color: #F56C99; /* Soft Pink for heading */
+  text-align: center;
+  font-size: 2.5rem;
+  margin-top: 50px;
+}
+
+/* Main Text */
+p {
+  font-size: 1.2rem;
+  color: #333; /* Dark Charcoal for readability */
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Button Styles */
+button {
+  background-color: #F56C99; /* Soft Pink */
+  color: #333; /* Dark Charcoal text */
+  border: 2px solid #A8D0E6; /* Light Blue border */
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  outline: none;
+  margin: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #F5A6B1; /* Soft Pink hover */
+}
+
+button:disabled {
+  background-color: #D1E6D1; /* Serene Sage disabled button */
+  cursor: not-allowed;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Celebration Section */
+.celebration {
+  background-color: #FFC1C1; /* Soft Pink background */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: #333; /* Dark Charcoal text */
+  margin-top: 30px;
+}
+
+.celebration h2 {
+  color: #F56C99; /* Soft Pink heading */
+}
+
+/* Timer Style */
+.timer {
+  font-size: 1.2rem;
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Floating Hearts & Mouse Hearts */
+.floating-hearts,
+.mouse-hearts {
+  /* Ensure these elements are styled appropriately based on your component's design */
+}
+
+/* Additional Global Styles */
+h1, p {
+  text-align: center;
+}
+
+/* Accessibility Enhancements (AODA) */
 a {
-  color: inherit;
+  color: #F56C99;
   text-decoration: none;
 }
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 3px solid #A8D0E6; /* Light Blue for focus outlines */
+}
+
 
 @media (prefers-color-scheme: dark) {
   html {
